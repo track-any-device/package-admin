@@ -1,0 +1,26 @@
+{
+    "name": "track-any-device/admin",
+    "description": "Filament admin panel, resources, and pages for the Track Any Device platform.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "filament/filament": "^4.0",
+        "laravel/framework": "^13.7",
+        "track-any-device/core": "^0.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "TrackAnyDevice\\Admin\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TrackAnyDevice\\Admin\\AdminPanelProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
