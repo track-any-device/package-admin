@@ -80,11 +80,6 @@ class TenantForm
                             ->placeholder('Set automatically on approval')
                             ->columnSpanFull(),
 
-                        Toggle::make('registration_enabled')
-                            ->label('Allow Public Registration')
-                            ->helperText('When enabled, visitors to this tenant\'s subdomain can self-register at /register and join as Tenant Users. When disabled, /register returns 404 on this subdomain.')
-                            ->default(false)
-                            ->columnSpanFull(),
                     ]),
 
                 Section::make('Branding')
@@ -122,6 +117,73 @@ class TenantForm
                             ->allowHtml()
                             ->helperText('Drives the portal accent colour palette. "Default" is the canonical Blue and the only scheme used by the central host.')
                             ->columnSpanFull(),
+                    ]),
+
+                Section::make('Auth Pages')
+                    ->description('Customise the login, register, and forgot-password pages shown to users of this tenant.')
+                    ->columns(2)
+                    ->schema([
+                        Select::make('auth_layout')
+                            ->label('Login Page Layout')
+                            ->options([
+                                'split'    => 'Split — form on the left, decorative panel on the right',
+                                'branded'  => 'Branded — full-bleed background with centred card',
+                                'classic'  => 'Classic — stacked logo above a centred card',
+                                'centered' => 'Centered — minimal card, no decorative panel',
+                                'simple'   => 'Simple — single-column, no chrome',
+                                'card'     => 'Card — floating card with subtle shadow',
+                            ])
+                            ->default('split')
+                            ->required()
+                            ->native(false)
+                            ->helperText('Controls the visual template for all auth pages (login, register, forgot password). Variants map 1-to-1 to AuthLayoutVariant in @trackany-device/components.')
+                            ->columnSpanFull(),
+
+                        TextInput::make('auth_background_path')
+                            ->label('Auth Background Image Path')
+                            ->maxLength(512)
+                            ->placeholder('tenant-auth-backgrounds/acme/login-bg.jpg')
+                            ->helperText('Relative storage path — no scheme or domain (e.g. tenant-auth-backgrounds/acme/login-bg.jpg). The platform resolves this to a full URL at render time. Leave blank to use the default gradient.')
+                            ->columnSpanFull(),
+
+                        TextInput::make('auth_login_title')
+                            ->label('Login Title')
+                            ->maxLength(120)
+                            ->placeholder('Sign in to Acme Fleet')
+                            ->helperText('Heading shown on the login page. Falls back to platform default when blank.'),
+
+                        TextInput::make('auth_login_description')
+                            ->label('Login Description')
+                            ->maxLength(255)
+                            ->placeholder('Track your fleet in real time.')
+                            ->helperText('Subheading / tagline on the login page.'),
+
+                        Toggle::make('registration_enabled')
+                            ->label('Allow Public Registration')
+                            ->helperText('When enabled, /register is active for this tenant and new users can self-register.')
+                            ->default(false)
+                            ->columnSpanFull(),
+
+                        TextInput::make('auth_register_title')
+                            ->label('Register Title')
+                            ->maxLength(120)
+                            ->placeholder('Create your Acme account')
+                            ->helperText('Shown only when registration is enabled. Falls back to platform default.'),
+
+                        TextInput::make('auth_register_description')
+                            ->label('Register Description')
+                            ->maxLength(255)
+                            ->placeholder('Start your free trial today.'),
+
+                        TextInput::make('auth_forgot_title')
+                            ->label('Forgot Password Title')
+                            ->maxLength(120)
+                            ->placeholder('Reset your password'),
+
+                        TextInput::make('auth_forgot_description')
+                            ->label('Forgot Password Description')
+                            ->maxLength(255)
+                            ->placeholder('Enter your email and we\'ll send you a reset link.'),
                     ]),
 
                 Section::make('Integrations')
