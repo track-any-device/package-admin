@@ -44,6 +44,12 @@ class IncidentsTable
                     ->label('Beat')
                     ->placeholder('—'),
 
+                TextColumn::make('level')
+                    ->label('Level')
+                    ->numeric()
+                    ->sortable()
+                    ->placeholder('—'),
+
                 TextColumn::make('triggered_at')
                     ->dateTime('d M Y, H:i')
                     ->label('Triggered')
