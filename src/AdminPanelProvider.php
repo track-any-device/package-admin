@@ -32,6 +32,11 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
  */
 class AdminPanelProvider extends PanelProvider
 {
+    public function boot(): void
+    {
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'filament');
+    }
+
     public function panel(Panel $panel): Panel
     {
         $adminDomain = (string) env('ADMIN_DOMAIN', '');
