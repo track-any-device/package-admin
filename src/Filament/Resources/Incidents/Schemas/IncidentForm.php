@@ -7,6 +7,7 @@ use TrackAnyDevice\Core\Enums\IncidentPriority;
 use TrackAnyDevice\Core\Enums\IncidentStatus;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -29,6 +30,11 @@ class IncidentForm
                             ->label('Event Type')
                             ->options(collect(AlertRuleEventType::cases())->mapWithKeys(fn ($s) => [$s->value => $s->label()]))
                             ->required(),
+                        TextInput::make('level')
+                            ->label('Escalation Level')
+                            ->numeric()
+                            ->minValue(1)
+                            ->helperText('Beat hierarchy violation depth (1 = leaf, 2 = parent, 3+ = ancestor).'),
                         Textarea::make('resolution_notes')->rows(2)->columnSpanFull(),
                     ]),
             ]);
