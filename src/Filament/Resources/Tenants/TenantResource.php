@@ -9,6 +9,7 @@ use TrackAnyDevice\Admin\Filament\Resources\Tenants\Pages\ViewTenant;
 use TrackAnyDevice\Admin\Filament\Resources\Tenants\RelationManagers\DomainsRelationManager;
 use TrackAnyDevice\Admin\Filament\Resources\Tenants\RelationManagers\MembersRelationManager;
 use TrackAnyDevice\Admin\Filament\Resources\Tenants\RelationManagers\ScreensRelationManager;
+use TrackAnyDevice\Admin\Filament\Resources\Tenants\RelationManagers\TenantApiKeysRelationManager;
 use TrackAnyDevice\Admin\Filament\Resources\Tenants\Schemas\TenantForm;
 use TrackAnyDevice\Admin\Filament\Resources\Tenants\Tables\TenantsTable;
 use TrackAnyDevice\Core\Models\Tenant;
@@ -60,6 +61,7 @@ class TenantResource extends Resource
             MembersRelationManager::class,
             DomainsRelationManager::class,
             ScreensRelationManager::class,
+            TenantApiKeysRelationManager::class,
         ];
     }
 
