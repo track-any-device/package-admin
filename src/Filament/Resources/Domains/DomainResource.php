@@ -14,9 +14,13 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class DomainResource extends Resource
 {
+    use HasDepartmentAccess;
+
     protected static ?string $model = Domain::class;
 
     protected static ?string $slug = 'tenant-domains';
@@ -25,7 +29,7 @@ class DomainResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedGlobeAlt;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Administration';
+    protected static string|\UnitEnum|null $navigationGroup = 'System';
 
     protected static ?int $navigationSort = 1;
 
@@ -44,6 +48,12 @@ class DomainResource extends Resource
     public static function getRelations(): array
     {
         return [];
+    }
+
+    /** @return list<StaffDepartment> */
+    public static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 
     public static function getPages(): array

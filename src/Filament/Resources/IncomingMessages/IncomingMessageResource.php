@@ -12,14 +12,17 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class IncomingMessageResource extends Resource
 {
+    use HasDepartmentAccess;
     protected static ?string $model = IncomingSms::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInbox;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Messages';
+    protected static string|\UnitEnum|null $navigationGroup = 'Operations';
 
     protected static ?string $navigationLabel = 'Incoming';
 
@@ -64,5 +67,10 @@ class IncomingMessageResource extends Resource
         return IncomingSms::whereNull('processed_at')->whereNotNull('processing_error')->exists()
             ? 'danger'
             : 'warning';
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 }

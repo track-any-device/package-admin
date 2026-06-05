@@ -14,14 +14,18 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class ComputeBoardResource extends Resource
 {
+    use HasDepartmentAccess;
+
     protected static ?string $model = ComputeBoard::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedSquares2x2;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Catalogue';
+    protected static string|\UnitEnum|null $navigationGroup = 'Engineering';
 
     public static function form(Schema $schema): Schema
     {
@@ -36,6 +40,11 @@ class ComputeBoardResource extends Resource
     public static function getRelations(): array
     {
         return [];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::Engineering];
     }
 
     public static function getPages(): array

@@ -14,14 +14,17 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class AssigneeResource extends Resource
 {
+    use HasDepartmentAccess;
     protected static ?string $model = Assignee::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Assignees';
+    protected static string|\UnitEnum|null $navigationGroup = 'Operations';
 
     protected static ?int $navigationSort = 1;
 
@@ -48,5 +51,10 @@ class AssigneeResource extends Resource
             'view' => ViewAssignee::route('/{record}'),
             'edit' => EditAssignee::route('/{record}/edit'),
         ];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 }

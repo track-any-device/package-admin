@@ -14,14 +14,18 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class ProductResource extends Resource
 {
+    use HasDepartmentAccess;
+
     protected static ?string $model = Product::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingBag;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Catalogue';
+    protected static string|\UnitEnum|null $navigationGroup = 'Sales';
 
     public static function form(Schema $schema): Schema
     {
@@ -36,6 +40,12 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [];
+    }
+
+    /** @return list<StaffDepartment> */
+    public static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::Sales];
     }
 
     public static function getPages(): array

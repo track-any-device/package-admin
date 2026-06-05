@@ -27,16 +27,20 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class PolicyVersionResource extends Resource
 {
+    use HasDepartmentAccess;
+
     protected static ?string $model = PolicyVersion::class;
 
     protected static ?string $slug = 'policy-versions';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Compliance';
+    protected static string|\UnitEnum|null $navigationGroup = 'System';
 
     protected static ?string $navigationLabel = 'Policy Versions';
 
@@ -155,6 +159,12 @@ class PolicyVersionResource extends Resource
                 ]),
             ])
             ->defaultSort('effective_from', 'desc');
+    }
+
+    /** @return list<StaffDepartment> */
+    public static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 
     public static function getPages(): array

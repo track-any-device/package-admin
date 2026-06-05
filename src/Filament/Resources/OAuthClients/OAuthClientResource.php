@@ -14,14 +14,18 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class OAuthClientResource extends Resource
 {
+    use HasDepartmentAccess;
+
     protected static ?string $model = OAuthClient::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedKey;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Access Control';
+    protected static string|\UnitEnum|null $navigationGroup = 'System';
 
     protected static ?string $navigationLabel = 'OAuth Clients';
 
@@ -44,6 +48,12 @@ class OAuthClientResource extends Resource
     public static function getRelations(): array
     {
         return [];
+    }
+
+    /** @return list<StaffDepartment> */
+    public static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 
     public static function getPages(): array

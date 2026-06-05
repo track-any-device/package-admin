@@ -52,6 +52,13 @@ class UsersTable
                     ->searchable()
                     ->toggleable(),
 
+                TextColumn::make('staffDepartmentEntries.department')
+                    ->label('Departments')
+                    ->badge()
+                    ->formatStateUsing(fn (string $state) => \TrackAnyDevice\Core\Enums\StaffDepartment::from($state)->label())
+                    ->color(fn (string $state) => \TrackAnyDevice\Core\Enums\StaffDepartment::from($state)->color())
+                    ->toggleable(),
+
                 TextColumn::make('email_verified_at')
                     ->label('Verified')
                     ->dateTime('d M Y')

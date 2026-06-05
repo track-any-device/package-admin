@@ -10,14 +10,17 @@ use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class WorkflowRunResource extends Resource
 {
+    use HasDepartmentAccess;
     protected static ?string $model = WorkflowRun::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPlayCircle;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Automation';
+    protected static string|\UnitEnum|null $navigationGroup = 'Operations';
 
     protected static ?int $navigationSort = 2;
 
@@ -37,5 +40,10 @@ class WorkflowRunResource extends Resource
             'index' => ListWorkflowRuns::route('/'),
             'view' => ViewWorkflowRun::route('/{record}'),
         ];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 }

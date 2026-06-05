@@ -12,14 +12,17 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class DeviceCommandResource extends Resource
 {
+    use HasDepartmentAccess;
     protected static ?string $model = DeviceCommand::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPaperAirplane;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Messages';
+    protected static string|\UnitEnum|null $navigationGroup = 'Operations';
 
     protected static ?string $navigationLabel = 'Outgoing';
 
@@ -62,5 +65,10 @@ class DeviceCommandResource extends Resource
     public static function getNavigationBadgeColor(): ?string
     {
         return DeviceCommand::where('status', 'failed')->exists() ? 'danger' : 'info';
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 }

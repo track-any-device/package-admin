@@ -14,14 +14,17 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class WorkflowResource extends Resource
 {
+    use HasDepartmentAccess;
     protected static ?string $model = Workflow::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBolt;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Automation';
+    protected static string|\UnitEnum|null $navigationGroup = 'Operations';
 
     protected static ?int $navigationSort = 1;
 
@@ -48,5 +51,10 @@ class WorkflowResource extends Resource
             'view' => ViewWorkflow::route('/{record}'),
             'edit' => EditWorkflow::route('/{record}/edit'),
         ];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 }

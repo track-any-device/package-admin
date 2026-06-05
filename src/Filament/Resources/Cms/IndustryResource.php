@@ -24,14 +24,17 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class IndustryResource extends Resource
 {
+    use HasDepartmentAccess;
     protected static ?string $model = Industry::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'CMS';
+    protected static string|\UnitEnum|null $navigationGroup = 'Marketing';
 
     protected static ?string $navigationLabel = 'Industries';
 
@@ -98,6 +101,11 @@ class IndustryResource extends Resource
     public static function getRelations(): array
     {
         return [SectionsRelationManager::class];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::Marketing];
     }
 
     public static function getPages(): array

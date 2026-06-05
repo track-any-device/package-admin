@@ -21,14 +21,17 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class PageResource extends Resource
 {
+    use HasDepartmentAccess;
     protected static ?string $model = Page::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'CMS';
+    protected static string|\UnitEnum|null $navigationGroup = 'Marketing';
 
     protected static ?string $navigationLabel = 'Pages';
 
@@ -75,6 +78,11 @@ class PageResource extends Resource
     public static function getRelations(): array
     {
         return [SectionsRelationManager::class];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::Marketing];
     }
 
     public static function getPages(): array

@@ -3,6 +3,8 @@
 namespace TrackAnyDevice\Admin\Filament\Resources\Users\Schemas;
 
 use TrackAnyDevice\Core\Enums\Role;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -72,6 +74,41 @@ class UserForm
                         Toggle::make('share_email')
                             ->label('Share email address with field users')
                             ->default(true),
+                    ]),
+
+                Section::make('Department Assignments')
+                    ->description('Assign this staff member to one or more departments.')
+                    ->schema([
+                        Repeater::make('staffDepartmentEntries')
+                            ->relationship()
+                            ->label('')
+                            ->schema([
+                                Select::make('department')
+                                    ->options(collect(StaffDepartment::cases())
+                                        ->mapWithKeys(fn (StaffDepartment $d) => [$d->value => $d->label()])
+                                        ->all())
+                                    ->required()
+                                    ->live()
+                                    ->columnSpan(1),
+
+                                Select::make('warehouse_id')
+                                    ->relationship('warehouse', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->nullable()
+                                    ->visible(fn (callable $get) => $get('department') === StaffDepartment::Warehouse->value)
+                                    ->columnSpan(1),
+
+                                Toggle::make('is_workshop')
+                                    ->label('Workshop access')
+                                    ->visible(fn (callable $get) => $get('department') === StaffDepartment::Warehouse->value)
+                                    ->columnSpan(1),
+                            ])
+                            ->columns(3)
+                            ->defaultItems(0)
+                            ->addActionLabel('Add Department')
+                            ->reorderable(false)
+                            ->columnSpanFull(),
                     ]),
             ]);
     }

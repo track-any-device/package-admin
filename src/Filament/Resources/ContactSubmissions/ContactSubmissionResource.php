@@ -22,14 +22,17 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class ContactSubmissionResource extends Resource
 {
+    use HasDepartmentAccess;
     protected static ?string $model = ContactSubmission::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInbox;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'CMS';
+    protected static string|\UnitEnum|null $navigationGroup = 'Marketing';
 
     protected static ?string $navigationLabel = 'Contact Inbox';
 
@@ -108,6 +111,11 @@ class ContactSubmissionResource extends Resource
                 DeleteAction::make(),
             ])
             ->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::Marketing];
     }
 
     public static function getPages(): array
