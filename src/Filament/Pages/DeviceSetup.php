@@ -19,7 +19,7 @@ class DeviceSetup extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
+    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-wrench-screwdriver';
     protected static string|\UnitEnum|null $navigationGroup = 'Workshop';
     protected static ?int $navigationSort = 1;
     protected static ?string $title = 'Device Setup';
