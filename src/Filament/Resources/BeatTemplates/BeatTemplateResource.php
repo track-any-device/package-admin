@@ -13,9 +13,12 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class BeatTemplateResource extends Resource
 {
+    use HasDepartmentAccess;
     protected static ?string $model = BeatTemplate::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
@@ -50,5 +53,10 @@ class BeatTemplateResource extends Resource
             'create' => CreateBeatTemplate::route('/create'),
             'edit' => EditBeatTemplate::route('/{record}/edit'),
         ];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 }

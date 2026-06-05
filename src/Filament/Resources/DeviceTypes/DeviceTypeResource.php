@@ -15,14 +15,18 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class DeviceTypeResource extends Resource
 {
+    use HasDepartmentAccess;
+
     protected static ?string $model = DeviceType::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCpuChip;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Device Types';
+    protected static string|\UnitEnum|null $navigationGroup = 'Engineering';
 
     protected static ?int $navigationSort = 2;
 
@@ -39,6 +43,11 @@ class DeviceTypeResource extends Resource
     public static function getRelations(): array
     {
         return [SectionsRelationManager::class];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::Engineering, StaffDepartment::Procurement];
     }
 
     public static function getPages(): array

@@ -14,14 +14,18 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class DeviceOrderResource extends Resource
 {
+    use HasDepartmentAccess;
+
     protected static ?string $model = DeviceOrder::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingCart;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Administration';
+    protected static string|\UnitEnum|null $navigationGroup = 'Sales';
 
     protected static ?int $navigationSort = 2;
 
@@ -33,6 +37,12 @@ class DeviceOrderResource extends Resource
     public static function table(Table $table): Table
     {
         return DeviceOrdersTable::configure($table);
+    }
+
+    /** @return list<StaffDepartment> */
+    public static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::Sales];
     }
 
     public static function getPages(): array

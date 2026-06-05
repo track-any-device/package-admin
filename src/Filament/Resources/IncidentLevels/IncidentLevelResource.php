@@ -14,9 +14,12 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class IncidentLevelResource extends Resource
 {
+    use HasDepartmentAccess;
     protected static ?string $model = IncidentLevel::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowsUpDown;
@@ -48,5 +51,10 @@ class IncidentLevelResource extends Resource
             'view' => ViewIncidentLevel::route('/{record}'),
             'edit' => EditIncidentLevel::route('/{record}/edit'),
         ];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 }

@@ -14,9 +14,12 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class IncidentStatusOptionResource extends Resource
 {
+    use HasDepartmentAccess;
     protected static ?string $model = IncidentStatusOption::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedListBullet;
@@ -50,5 +53,10 @@ class IncidentStatusOptionResource extends Resource
             'view' => ViewIncidentStatusOption::route('/{record}'),
             'edit' => EditIncidentStatusOption::route('/{record}/edit'),
         ];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 }

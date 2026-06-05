@@ -10,6 +10,8 @@ use TrackAnyDevice\Admin\Filament\Resources\Devices\RelationManagers\BeatAssignm
 use TrackAnyDevice\Admin\Filament\Resources\Devices\RelationManagers\DeviceAssignmentsRelationManager;
 use TrackAnyDevice\Admin\Filament\Resources\Devices\Schemas\DeviceForm;
 use TrackAnyDevice\Admin\Filament\Resources\Devices\Tables\DevicesTable;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 use TrackAnyDevice\Core\Models\Device;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -19,11 +21,13 @@ use Filament\Tables\Table;
 
 class DeviceResource extends Resource
 {
+    use HasDepartmentAccess;
+
     protected static ?string $model = Device::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDevicePhoneMobile;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Devices';
+    protected static string|\UnitEnum|null $navigationGroup = 'Procurement';
 
     protected static ?int $navigationSort = 1;
 
@@ -43,6 +47,11 @@ class DeviceResource extends Resource
             DeviceAssignmentsRelationManager::class,
             BeatAssignmentsRelationManager::class,
         ];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::Procurement, StaffDepartment::Warehouse];
     }
 
     public static function getPages(): array

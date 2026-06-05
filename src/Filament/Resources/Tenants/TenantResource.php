@@ -19,9 +19,13 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 
 class TenantResource extends Resource
 {
+    use HasDepartmentAccess;
+
     protected static ?string $model = Tenant::class;
 
     // Use 'organisations' slug to avoid Filament's reserved 'tenants' route keyword
@@ -29,7 +33,7 @@ class TenantResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Access Control';
+    protected static string|\UnitEnum|null $navigationGroup = 'Sales';
 
     protected static ?int $navigationSort = 2;
 
@@ -63,6 +67,12 @@ class TenantResource extends Resource
             ScreensRelationManager::class,
             TenantApiKeysRelationManager::class,
         ];
+    }
+
+    /** @return list<StaffDepartment> */
+    public static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::Sales];
     }
 
     public static function getPages(): array

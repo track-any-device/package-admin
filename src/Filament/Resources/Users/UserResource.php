@@ -7,6 +7,8 @@ use TrackAnyDevice\Admin\Filament\Resources\Users\Pages\EditUser;
 use TrackAnyDevice\Admin\Filament\Resources\Users\Pages\ListUsers;
 use TrackAnyDevice\Admin\Filament\Resources\Users\Schemas\UserForm;
 use TrackAnyDevice\Admin\Filament\Resources\Users\Tables\UsersTable;
+use TrackAnyDevice\Admin\Concerns\HasDepartmentAccess;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 use TrackAnyDevice\Core\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -16,11 +18,13 @@ use Filament\Tables\Table;
 
 class UserResource extends Resource
 {
+    use HasDepartmentAccess;
+
     protected static ?string $model = User::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Access Control';
+    protected static string|\UnitEnum|null $navigationGroup = 'System';
 
     protected static ?int $navigationSort = 1;
 
@@ -39,6 +43,11 @@ class UserResource extends Resource
         return [
             //
         ];
+    }
+
+    protected static function getAllowedDepartments(): array
+    {
+        return [StaffDepartment::CoreTeam];
     }
 
     public static function getPages(): array
