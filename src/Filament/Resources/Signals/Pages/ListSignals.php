@@ -22,7 +22,7 @@ class ListSignals extends Page
 {
     protected static string $resource = SignalResource::class;
 
-    protected string $view = 'filament.resources.signals.list';
+    protected string $view = 'tad-admin::filament.resources.signals.list';
 
     public string $deviceFilter = '';
 
