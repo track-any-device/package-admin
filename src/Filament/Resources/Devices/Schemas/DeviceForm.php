@@ -46,11 +46,9 @@ class DeviceForm
                             ->relationship(
                                 name: 'deviceType',
                                 titleAttribute: 'name',
-                                modifyQueryUsing: fn ($query) => $query->where('is_active', true),
+                                modifyQueryUsing: fn ($query) => $query->where('is_active', true)->orderBy('name'),
                             )
                             ->required()
-                            ->searchable()
-                            ->preload()
                             ->columnSpanFull(),
 
                         TextInput::make('name')
