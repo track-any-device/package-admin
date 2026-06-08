@@ -67,6 +67,12 @@ class ProductForm
                     ->maxLength(3)
                     ->default(fn () => Country::default()?->currency_code ?? 'PKR'),
                 TextInput::make('stock')->numeric()->default(0),
+                TextInput::make('max_order_quantity')
+                    ->label('Max Order Qty')
+                    ->numeric()
+                    ->default(10)
+                    ->minValue(1)
+                    ->helperText('Direct checkout limit per order. Orders above this require contacting sales.'),
                 Toggle::make('is_active')->default(true),
                 Textarea::make('description')->rows(2)->columnSpanFull(),
             ]),
