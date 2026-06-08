@@ -3,6 +3,7 @@
 namespace TrackAnyDevice\Admin\Filament\Resources\Users\Tables;
 
 use TrackAnyDevice\Core\Enums\Role;
+use TrackAnyDevice\Core\Enums\StaffDepartment;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -55,8 +56,8 @@ class UsersTable
                 TextColumn::make('staffDepartmentEntries.department')
                     ->label('Departments')
                     ->badge()
-                    ->formatStateUsing(fn (string $state) => \TrackAnyDevice\Core\Enums\StaffDepartment::from($state)->label())
-                    ->color(fn (string $state) => \TrackAnyDevice\Core\Enums\StaffDepartment::from($state)->color())
+                    ->formatStateUsing(fn (StaffDepartment $state) => $state->label())
+                    ->color(fn (StaffDepartment $state) => $state->color())
                     ->toggleable(),
 
                 TextColumn::make('email_verified_at')
