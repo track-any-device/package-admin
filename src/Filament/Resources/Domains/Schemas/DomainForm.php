@@ -18,7 +18,7 @@ class DomainForm
                 Select::make('tenant_id')
                     ->label('Tenant')
                     ->relationship('tenant', 'name')
-                    ->getOptionLabelFromRecordUsing(fn (Tenant $record) => $record->name.' ('.$record->slug.')')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->name.' ('.$record->slug.')')
                     ->searchable(['name', 'slug'])
                     ->preload()
                     ->required(),

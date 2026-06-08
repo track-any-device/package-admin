@@ -19,7 +19,7 @@ use Filament\Support\Icons\Heroicon;
  */
 class DeviceLogsViewer extends Page
 {
-    protected string $view = 'filament.pages.device-logs-viewer';
+    protected string $view = 'tad-admin::filament.pages.device-logs-viewer';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCommandLine;
 

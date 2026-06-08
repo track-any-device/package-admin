@@ -34,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
 {
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'filament');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'tad-admin');
     }
 
     public function panel(Panel $panel): Panel
