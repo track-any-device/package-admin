@@ -17,7 +17,12 @@
     "extra": {
         "laravel": {
             "providers": [
-                "TrackAnyDevice\\Admin\\AdminPanelProvider"
+                "TrackAnyDevice\\Admin\\AdminPanelProvider",
+                "TrackAnyDevice\\Admin\\Panels\\EngineeringPanelProvider",
+                "TrackAnyDevice\\Admin\\Panels\\ProcurementPanelProvider",
+                "TrackAnyDevice\\Admin\\Panels\\WarehousePanelProvider",
+                "TrackAnyDevice\\Admin\\Panels\\MarketingPanelProvider",
+                "TrackAnyDevice\\Admin\\Panels\\SalesPanelProvider"
             ]
         }
     },
