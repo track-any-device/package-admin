@@ -18,6 +18,9 @@ class ProductsTable
                 TextColumn::make('product_type')->badge(),
                 TextColumn::make('price')->money(fn ($record) => $record->currency)->sortable(),
                 TextColumn::make('stock')->sortable(),
+                TextColumn::make('max_order_quantity')
+                    ->label('Max Qty')
+                    ->sortable(),
                 IconColumn::make('is_active')->boolean(),
             ])
             ->recordActions([EditAction::make()])
