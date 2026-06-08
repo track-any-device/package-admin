@@ -34,10 +34,12 @@ class DeviceOrderForm
 
                         Select::make('device_type_id')
                             ->label('Device Type')
-                            ->relationship('deviceType', 'name')
-                            ->required()
-                            ->searchable()
-                            ->preload(),
+                            ->relationship(
+                                name: 'deviceType',
+                                titleAttribute: 'name',
+                                modifyQueryUsing: fn ($query) => $query->where('is_active', true)->orderBy('name'),
+                            )
+                            ->required(),
 
                         Select::make('device_id')
                             ->label('Assign Device (Stock)')

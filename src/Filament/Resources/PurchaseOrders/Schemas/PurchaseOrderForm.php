@@ -23,14 +23,13 @@ class PurchaseOrderForm
                         ->maxLength(255),
 
                     Select::make('device_type_id')
+                        ->label('Device Type')
                         ->relationship(
                             name: 'deviceType',
                             titleAttribute: 'name',
-                            modifyQueryUsing: fn ($query) => $query->where('is_active', true),
+                            modifyQueryUsing: fn ($query) => $query->where('is_active', true)->orderBy('name'),
                         )
-                        ->required()
-                        ->searchable()
-                        ->preload(),
+                        ->required(),
 
                     Select::make('warehouse_id')
                         ->relationship('warehouse', 'name')
