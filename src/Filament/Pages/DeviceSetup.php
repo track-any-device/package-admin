@@ -23,7 +23,7 @@ class DeviceSetup extends Page implements HasForms
     protected static string|\UnitEnum|null $navigationGroup = 'Workshop';
     protected static ?int $navigationSort = 1;
     protected static ?string $title = 'Device Setup';
-    protected string $view = 'filament.pages.device-setup';
+    protected string $view = 'tad-admin::filament.pages.device-setup';
 
     public ?string $imei_search = null;
     public ?Device $device = null;
