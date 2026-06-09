@@ -11,6 +11,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -133,9 +134,19 @@ class DevicesTable
                     ->label('Onboard')
                     ->icon('heroicon-o-rocket-launch')
                     ->color('primary')
-                    ->visible(fn (Device $record) => $record->onboarding_status !== OnboardingStatus::Verified)
+                    ->visible(fn (Device $record) => ! ($record->is_approved && $record->onboarding_status === OnboardingStatus::Verified))
                     ->requiresConfirmation()
-                    ->action(fn (Device $record) => OnboardDeviceJob::dispatch($record->id)),
+                    ->action(function (Device $record) {
+                        $record->update(['is_approved' => true]);
+
+                        OnboardDeviceJob::dispatch($record->id);
+
+                        Notification::make()
+                            ->title('Device onboarding started')
+                            ->body("'{$record->name}' has been approved and onboarding commands are being dispatched.")
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
