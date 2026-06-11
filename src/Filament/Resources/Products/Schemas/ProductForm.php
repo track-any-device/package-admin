@@ -43,19 +43,7 @@ class ProductForm
                             default => [],
                         };
                     })
-                    ->afterStateUpdated(function ($state, $get, callable $set) {
-                        $type = $get('product_type');
-                        $set('productable_type', match ($type) {
-                            ProductType::DeviceType->value => DeviceType::class,
-                            ProductType::Chip->value => Chip::class,
-                            ProductType::ComputeBoard->value => ComputeBoard::class,
-                            ProductType::ConnectingCable->value => ConnectingCable::class,
-                            ProductType::ChargingSet->value => ChargingSet::class,
-                            default => null,
-                        });
-                    })
                     ->required(),
-                TextInput::make('productable_type')->hidden(),
                 TextInput::make('price')
                     ->label('Base Price')
                     ->numeric()
