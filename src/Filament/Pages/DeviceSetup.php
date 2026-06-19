@@ -2,7 +2,6 @@
 
 namespace TrackAnyDevice\Admin\Filament\Pages;
 
-use TrackAnyDevice\Core\Enums\StaffDepartment;
 use TrackAnyDevice\Core\Models\Device;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -37,13 +36,13 @@ class DeviceSetup extends Page implements HasForms
     {
         $user = Auth::user();
 
-        if (! $user || ! method_exists($user, 'isWorkshop')) {
+        if (! $user) {
             return false;
         }
 
-        return $user->isAdmin()
-            || $user->hasDepartment(StaffDepartment::CoreTeam)
-            || $user->isWorkshop();
+        // Single-Role: device setup is an admin-panel page → Admin + Core.
+        // (Workshop staff use the web operations portal instead.)
+        return (bool) $user->role?->canAccessFilament();
     }
 
     public function searchForm(Form $form): Form

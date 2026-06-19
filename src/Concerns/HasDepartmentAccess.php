@@ -2,34 +2,33 @@
 
 namespace TrackAnyDevice\Admin\Concerns;
 
-use TrackAnyDevice\Core\Enums\StaffDepartment;
-
+/**
+ * Filament admin access — role-based (single-Role model, Workstream F).
+ *
+ * Admin + Core may view/manage every resource; only Admin may delete. Department gating is gone;
+ * the per-resource getAllowedDepartments() overrides are now vestigial (ignored) and get deleted
+ * in the final StaffDepartment cleanup once the enum is removed from package-core.
+ */
 trait HasDepartmentAccess
 {
     public static function canAccess(): bool
     {
-        $user = auth()->user();
-
-        if (! $user || ! method_exists($user, 'hasDepartment')) {
-            return false;
-        }
-
-        if ($user->isAdmin() || $user->hasDepartment(StaffDepartment::CoreTeam)) {
-            return true;
-        }
-
-        foreach (static::getAllowedDepartments() as $dept) {
-            if ($user->hasDepartment($dept)) {
-                return true;
-            }
-        }
-
-        return false;
+        return (bool) (auth()->user()?->role?->canAccessFilament());
     }
 
-    /** @return StaffDepartment[] */
+    public static function canDeleteAny(): bool
+    {
+        return (bool) (auth()->user()?->role?->canDeleteInFilament());
+    }
+
+    public static function canDelete($record): bool
+    {
+        return (bool) (auth()->user()?->role?->canDeleteInFilament());
+    }
+
+    /** @deprecated department gating removed; retained so legacy overrides still compile. */
     protected static function getAllowedDepartments(): array
     {
-        return [StaffDepartment::CoreTeam];
+        return [];
     }
 }
